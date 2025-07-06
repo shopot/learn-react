@@ -1,41 +1,24 @@
-# Website
+# Learn React
 
-This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
+Добро пожаловать в учебное пособие по React, созданное специально для студентов курса [React Course от RS School ](https://rs.school/courses/reactjs)и всех, кто делает первые шаги в изучении этой популярной библиотеки.
 
-## Installation
+Этот сборник статей предназначен для тех, кто уже знаком с базами JavaScript/TypeScript и готов перейти к созданию современных, интерактивных интерфейсов с помощью React. 
 
-```bash
-yarn
-```
+Здесь вы найдёте основы работы с этой мощной библиотекой, практические примеры и ключевые концепции, необходимые для создания современных веб-приложений.
 
-## Local Development
+---
+**Актуальная версия онлайн доступна по ссылке:**
 
-```bash
-yarn start
-```
+**🔗 https://shopot.github.io/learn-react**
 
-This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
+---
 
-## Build
+Надеюсь, это руководство поможет вам разобраться в его принципах и вдохновит на создание крутых проектов!
 
-```bash
-yarn build
-```
+Успехов в обучении! 🚀
 
-This command generates static content into the `build` directory and can be served using any static contents hosting service.
+### Дополнительно 
 
-## Deployment
+[Учебное пособие по React и его экосистеме в виде конспекта.](https://github.com/shopot/react-101)
 
-Using SSH:
-
-```bash
-USE_SSH=true yarn deploy
-```
-
-Not using SSH:
-
-```bash
-GIT_USER=<Your GitHub username> yarn deploy
-```
-
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+[Статья на тему Frontend project structure](https://github.com/shopot/react-project-structure)
