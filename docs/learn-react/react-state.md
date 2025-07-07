@@ -62,6 +62,8 @@ const App = () => {
     setSearchTerm(event.target.value);
   };
 
+  console.log('Input changed:', searchTerm);
+
   return (
     <div>
       <h1>The People's list</h1>
@@ -69,7 +71,6 @@ const App = () => {
       <input
         id="search"
         type="text"
-        value={searchTerm} // Переменная состояния
         onChange={handleChange} // Обработчик изменения поля ввода
       />
       <hr />
@@ -88,7 +89,7 @@ export default App;
 - Когда пользователь вводит текст в поле, срабатывает событие `onChange`, вызывающее `handleChange`. 
 - В `handleChange` вызывается `setSearchTerm` с новым значением из поля ввода. 
 - React обновляет состояние и повторно рендерит компонент. 
-- В новом рендере `searchTerm` содержит актуальное значение, которое отображается в `input`.
+- В новом рендере `searchTerm` содержит актуальное значение, которое выводится в консоль.
 
 **Почему React State так важен?**
 
@@ -106,7 +107,7 @@ export default App;
 
 ## Домашняя работа
 
-Создайте второй компонент `Search` в который выделите из компонента `App` функционал и разметку связанные с `label` и `input`
+Создайте второй компонент `Search` в который выделите из компонента `App` функционал и разметку связанные с  `input` и состоянием.
 
 <details>
 <summary>Решение - компонент Search</summary>
@@ -122,13 +123,14 @@ export const Search = () => {
     setSearchTerm(event.target.value);
   };
 
+  console.log('Input changed:', searchTerm);
+
   return (
     <div>
       <label htmlFor="search">Search: </label>
       <input
         id="search"
         type="text"
-        value={searchTerm} // Переменная состояния
         onChange={handleChange} // Обработчик изменения поля ввода
       />
     </div>

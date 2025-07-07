@@ -26,17 +26,15 @@ sidebar_position: 11
 Теперь компонент `Search` не управляет состоянием, а получает его обновляющую функцию через пропсы от родительского компонента:
 
 ```tsx
-import React from 'react';
-
 type SearchProps = {
   onSearch: (value: string) => void;
 };
 
 export const Search = ({ onSearch }: SearchProps) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    onSearch(event.target.value);
+      onSearch(event.target.value);
   };
-
+    
   return (
     <div>
       <label htmlFor="search">Search: </label>
