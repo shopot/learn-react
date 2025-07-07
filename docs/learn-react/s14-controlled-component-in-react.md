@@ -1,5 +1,5 @@
 ---
-sidebar_position: 12
+sidebar_position: 14
 ---
 
 # Контролируемые компоненты в React
