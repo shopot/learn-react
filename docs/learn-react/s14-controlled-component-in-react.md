@@ -39,19 +39,17 @@ type SearchProps = {
   onSearch: (value: string) => void;
 };
 
-export const Search = ({ search, onSearch }: SearchProps) => {
-  return (
-    <div>
-      <label htmlFor="search">Search: </label>
+export const Search = ({ search, onSearch }: SearchProps) => (
+  <div>
+    <label htmlFor="search">Search: </label>
       <input
         id="search"
         type="text"
         value={search} // Значение и пропсов
         onChange={(e) => onSearch(e.target.value)} // Обработчик изменения поля ввода
-      />
-    </div>
-  );
-};
+    />
+  </div>
+);
 ```
 
 Теперь поле ввода начинается с правильного начального значения, используя значение из состояния React.
