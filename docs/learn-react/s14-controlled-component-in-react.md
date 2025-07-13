@@ -14,7 +14,7 @@ sidebar_position: 14
 Рассмотрим пример из предыдущей статьи, внесём небольшие изменения:
 
 ```tsx
-// Инициализация состояния пустой строкой
+// Инициализация состояния не пустой строкой
 const [searchTerm, setSearchTerm] = useState('React');
 ```
 Хотя начальное состояние `searchTerm` установлено в 'React', input-поле не отражает это значение, потому что:
@@ -28,28 +28,36 @@ const [searchTerm, setSearchTerm] = useState('React');
 1. Передаем значение через пропсы
 
 ```tsx
-<Search search={searchTerm} onSearch={setSearchTerm} />
+<Search search={searchTerm} onSearch={handleSearch} />
 ```
 
 2. Связываем значение с `input` в компоненте `Search`
 
 ```tsx
-type SearchProps = { 
+import React from 'react';
+
+type SearchProps = {
   search: string;
   onSearch: (value: string) => void;
 };
 
-export const Search = ({ search, onSearch }: SearchProps) => (
-  <div>
-    <label htmlFor="search">Search: </label>
+export const Search = ({ search, onSearch }: SearchProps) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    onSearch(event.target.value);
+  };
+
+  return (
+    <div>
+      <label htmlFor="search">Search: </label>
       <input
         id="search"
         type="text"
         value={search} // Значение и пропсов
-        onChange={(e) => onSearch(e.target.value)} // Обработчик изменения поля ввода
-    />
-  </div>
-);
+        onChange={handleChange} // Обработчик изменения поля ввода
+      />
+    </div>
+  );
+};
 ```
 
 Теперь поле ввода начинается с правильного начального значения, используя значение из состояния React.

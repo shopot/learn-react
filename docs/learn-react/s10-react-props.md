@@ -4,7 +4,7 @@ sidebar_position: 10
 
 # Компоненты и пропсы
 
-В текущем приложении у нас есть переменная `people`, которая объявлена в глобальной области видимости в компоненте `List`.
+В текущем приложении у нас есть переменная `stories`, которая объявлена в глобальной области видимости в компоненте `List`.
 Такой подход может сработать при одном единственном случае, но он не масштабируется, мы не можем использовать компонент `List` с другой переменной или переменной из другого файла.
 
 ## Передача данных через пропсы
@@ -13,66 +13,69 @@ sidebar_position: 10
 
 ## Перемещаем данные в отдельный файл
 
-Первым шагом мы убираем переменную `people` из глобальной области видимости из компонента List.
-Кроме того, переименуем её в более подходящее название — например `peopleData`.
+Первым шагом мы убираем переменную `stories` из глобальной области видимости из компонента List.
 
-Для этого определим новый файл `src/peopleData.ts`
+Для этого определим новый файл `src/stores/stories.ts`
 
 ```ts
-export const peopleData = [
-    {
-        id: 1,
-        name: 'Creola Katherine Johnson',
-        profession: 'mathematician',
-    },
-    {
-        id: 2,
-        name: 'Mario José Molina-Pasquel Henríquez',
-        profession: 'chemist',
-    },
-    {
-        id: 3,
-        name: 'Mohammad Abdus Salam',
-        profession: 'physicist',
-    },
-    {
-        id: 4,
-        name: 'Percy Lavon Julian',
-        profession: 'chemist',
-    },
-    {
-        id: 5,
-        name: 'Subrahmanyan Chandrasekhar',
-        profession: 'astrophysicist',
-    },
+export const stories = [
+  {
+    id: 1,
+    title: 'React',
+    description:
+      'Библиотека для создания пользовательских интерфейсов, основанная на компонентной архитектуре.',
+  },
+  {
+    id: 2,
+    title: 'Vue.js',
+    description:
+      'Прогрессивный фреймворк для построения интерфейсов, легкий и гибкий в использовании.',
+  },
+  {
+    id: 3,
+    title: 'Angular',
+    description:
+      'Мощный фреймворк от Google для разработки одностраничных приложений с богатым функционалом.',
+  },
+  {
+    id: 4,
+    title: 'Svelte',
+    description:
+      'Современный фреймворк, который компилирует компоненты в чистый JavaScript, обеспечивая высокую производительность.',
+  },
+  {
+    id: 5,
+    title: 'Ember.js',
+    description:
+      'Фреймворк для амбициозных веб-приложений с встроенным роутингом и инструментами разработки.',
+  },
 ];
 ```
 
 ## Передача массива через пропсы в компонент `List`
 
 Теперь, чтобы компонент `List` получил данные, мы передаём их как пропс с именем `items`, в данном случае наш компонент `List`.
-Обычно, когда речь идет о переиспользуемых компонентах, названия пропсов, как правило, не связаны по смыслу с контекстом передаваемых данных. 
+Обычно, когда речь идет о переиспользуемых компонентах, названия пропсов, как правило, не связаны по смыслу с контекстом передаваемых данных и имеют более обобщенные названия. 
 
 ```tsx
-import type React from 'react';
 import { List } from './components/List';
-import { peopleData } from './peopleData';
+import { stories } from './stores/stories';
 
-const App = () => {
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        console.log('Input changed:', event.target.value);
-    };
+function App() {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('Input changed:', event.target.value);
+  };
 
-    return (
-        <div>
-            <h1>The People's list</h1>
-            <label htmlFor="search">Search: </label>
-            <input id="search" type="text" onChange={handleChange} />
-            <hr />
-            <List items={peopleData} />
-        </div>
-    );
-};
+  return (
+    <div>
+      <h1>Frontend JavaScript frameworks</h1>
+      <label htmlFor="search">Search: </label>
+      <input id="search" type="text" onChange={handleChange} />
+      <hr />
+      <List items={stories} />
+    </div>
+  );
+}
 
 export default App;
 ```
@@ -88,14 +91,12 @@ export default App;
 В самом компоненте `List` мы принимаем пропсы в качестве аргумента функции и читаем из них `items`:
 
 ```tsx
-type ListItem = {
-    id: number;
-    name: string;
-    profession: string;
-};
-
 type ListProps = {
-    items: ListItem[];
+  items: Array<{
+    id: number;
+    title: string;
+    description: string;
+  }>;
 };
 
 export const List = (props: ListProps) => {
@@ -103,9 +104,10 @@ export const List = (props: ListProps) => {
     
   return (
     <ul>
-      {items.map(({ id, name, profession }) => (
+      {items.map(({ id, title, description }) => (
         <li key={id}>
-          {name} {profession}
+          <span>{title}</span>
+          <span>{description}</span>
         </li>
       ))}
     </ul>
@@ -116,23 +118,22 @@ export const List = (props: ListProps) => {
 В данном случае наиболее предпочтительнее использовать деструктуризацию пропсов в месте их объявления:
 
 ```tsx
-...
 export const List = ({ items }: ListProps) => (
   <ul>
-    {items.map(({ id, name, profession }) => (
+    {items.map(({ id, title, description }) => (
       <li key={id}>
-        {name} {profession}
+        <span>{title}</span>
+        <span>{description}</span>
       </li>
     ))}
   </ul>
 );
-
 ```
 
 Преимущества использования пропсов:
 
 - Избегаем загрязнения глобальной области видимости.
-- Переменная peopleData теперь определена в модуле в отдельном файле и не влияет на другие части приложения.
+- Переменная `stories` теперь определена в модуле в отдельном файле и не влияет на другие части приложения.
 - Данные передаются явно через пропсы, что улучшает читаемость и поддержку кода.
 - Компонент становится переиспользуемым, так как получает данные извне через пропсы.
 
@@ -142,9 +143,13 @@ export const List = ({ items }: ListProps) => (
 
 1. **Использование типа (`type`) для описания пропсов**
 
-```tsx
+```ts
 type ListProps = {
-  items: ListItem[];
+  items: Array<{
+    id: number;
+    title: string;
+    description: string;
+  }>;
 };
 ```
 
@@ -153,7 +158,12 @@ type ListProps = {
 2. **Inline-аннотация пропсов**
 
 ```tsx
-export const List = ({ items }: { items:  ListItem[]}) => {
+export const List = ({ items }: {
+  items: Array<{
+    id: number;
+    title: string;
+    description: string;
+  }>}) => {
   ...
 };
 ```
@@ -166,7 +176,7 @@ export const List = ({ items }: { items:  ListItem[]}) => {
 3. **Использование `React.FC` (`React.FunctionComponent`)**
 
 ```tsx
-export const List: React.FC<{items: ListItem[]}> = ({ items }) => {
+export const List: React.FC<ListProps> = ({ items }) => {
   ...
 };
 ```

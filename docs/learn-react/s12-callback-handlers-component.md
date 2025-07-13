@@ -14,7 +14,7 @@ sidebar_position: 12
 Мы вынесли логику поиска в отдельный компонент `Search`, который хранит состояние `searchTerm` и отображает его. 
 Однако теперь у нас возникает проблема: как передать этот `searchTerm` обратно в `App` или в компонент `List`?
 
-По умолчанию в React пропсы передаются только сверху вниз, но не наоборот. Это означает, что напрямую отправить данные из Search в App или List нельзя.
+По умолчанию в React пропсы передаются только сверху вниз, но не наоборот. Это означает, что напрямую отправить данные из `Search` в `App` или `List` нельзя.
 
 ## Решение: Callback Handler
 
@@ -32,25 +32,24 @@ Callback Handler – это функция, переданная через пр
 Реализация для компонента `App`: 
 
 ```tsx
-// src/App.tsx
+import { stories } from './stores/stories';
 import { List } from './components/List';
-import { peopleData } from './peopleData';
 import { Search } from './components/Search';
 
-const App = () => {
+function App() {
   const handleChange = (value: string) => {
     console.log(value);
   };
 
   return (
     <div>
-      <h1>The People's list</h1>
+      <h1>Frontend JavaScript frameworks</h1>
       <Search onSearch={handleChange} />
       <hr />
-      <List items={peopleData} />
+      <List items={stories} />
     </div>
   );
-};
+}
 
 export default App;
 ```
@@ -66,7 +65,6 @@ type SearchProps = {
 };
 
 export const Search = ({ onSearch }: SearchProps) => {
-  // Инициализация состояния пустой строкой
   const [searchTerm, setSearchTerm] = useState('');
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -82,7 +80,6 @@ export const Search = ({ onSearch }: SearchProps) => {
       <input
         id="search"
         type="text"
-        value={searchTerm} // Переменная состояния
         onChange={handleChange} // Обработчик изменения поля ввода
       />
     </div>
@@ -98,7 +95,6 @@ export const Search = ({ onSearch }: SearchProps) => {
 
 
 ## Заключение
-
 
 Обработчики обратного вызова (Callback Handlers), передаваемые как функции в пропсах, могут использоваться для передачи
 данных вверх по иерархии компонентов. Это позволяет организовать восходящую передачу данных в React, особенно это полезно, когда:

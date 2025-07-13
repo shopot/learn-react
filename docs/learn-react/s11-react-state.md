@@ -52,9 +52,9 @@ const setSearchTerm = stateArray[1];
 ```tsx
 import React, { useState } from 'react';
 import { List } from './components/List';
-import { peopleData } from './peopleData';
+import { stories } from './stores/stories';
 
-const App = () => {
+function App() {
   // Инициализация состояния пустой строкой
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -66,7 +66,7 @@ const App = () => {
 
   return (
     <div>
-      <h1>The People's list</h1>
+      <h1>Frontend JavaScript frameworks</h1>
       <label htmlFor="search">Search: </label>
       <input
         id="search"
@@ -74,10 +74,10 @@ const App = () => {
         onChange={handleChange} // Обработчик изменения поля ввода
       />
       <hr />
-      <List items={peopleData} />
+      <List items={stories} />
     </div>
   );
-};
+}
 
 export default App;
 ```
@@ -111,6 +111,7 @@ export default App;
 
 <details>
 <summary>Решение - компонент Search</summary>
+
 ```tsx
 // src/components/Search.tsx
 import React, { useState } from 'react';

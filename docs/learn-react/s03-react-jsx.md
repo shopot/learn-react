@@ -45,13 +45,13 @@ React.createElement(
 ```tsx
 // src/App.tsx
 function App() {
-    const title = 'React';
+  const title = 'React';
     
-    return (
-        <div>
-            <h1>Hello {title}</h1>
-        </div>
-    );
+  return (
+    <div>
+      <h1>Hello {title}</h1>
+    </div>
+  );
 }
 
 export default App;
@@ -68,11 +68,11 @@ export default App;
 
 ```tsx
 function getGreeting(user) {
-    if (user) {
-        return <h1>Привет, {formatName(user)}!</h1>;
-    }
+  if (user) {
+    return <h1>Привет, {formatName(user)}!</h1>;
+  }
     
-    return <h1>Привет, незнакомец.</h1>;
+  return <h1>Привет, незнакомец.</h1>;
 }
 ```
 
@@ -142,9 +142,9 @@ JSX следует правилам XML, поэтому все элементы 
 
 ```tsx
 return (
-    <div>
-        <input type="text" />
-    </div>
+  <div>
+    <input type="text" />
+  </div>
 );
 ```
 

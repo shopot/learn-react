@@ -12,17 +12,23 @@ sidebar_position: 18
 
 ```tsx
 // ...
-export const Search = ({ search, onSearch }: SearchProps) => (
-  <>
-    <label htmlFor="search">Search: </label>
-    <input
-      id="search"
-      type="text"
-      value={search} // Значение и пропсов
-      onChange={(e) => onSearch(e.target.value)} // Обработчик изменения поля ввода
-    />
-  </>
-);
+export const Search = ({ search, onSearch }: SearchProps) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    onSearch(event.target.value);
+  };
+
+  return (
+    <>
+      <label htmlFor="search">Search: </label>
+      <input
+        id="search"
+        type="text"
+        value={search} // Значение и пропсов
+        onChange={handleChange} // Обработчик изменения поля ввода
+      />
+    </>
+  );
+};
 ```
 Проблемы текущей реализации:
 
@@ -41,6 +47,8 @@ export const Search = ({ search, onSearch }: SearchProps) => (
 Превратим `Search` в универсальный компонент `InputField`:
 
 ```tsx
+import React from 'react';
+
 type InputFieldProps = {
   id: string;
   label: string;
@@ -48,37 +56,49 @@ type InputFieldProps = {
   onChange: (value: string) => void;
 };
 
-export const InputField = ({ id, label, value, onChange }: InputFieldProps) => (
-  <>
-    <label htmlFor={id}>{label}: </label>
-    <input id="search" type="text" value={value} onChange={(e) => onChange(e.target.value)} />
-  </>
-);
+export const InputField = ({ id, label, value, onChange }: InputFieldProps) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    onChange(event.target.value);
+  };
+
+  return (
+    <>
+      <label htmlFor={id}>{label}: </label>
+      <input id={id} type="text" value={value} onChange={handleChange} />
+    </>
+  );
+};
 ```
 
 Обновим компонент App:
 
 ```tsx
-const App = () => {
-  const [searchTerm, setSearchTerm] = usePersistedSearch('search-value', '');
+// ...
+function App() {
+  const [searchTerm, setSearchTerm] = usePersistedSearch('search', '');
 
   const handleSearch = (value: string) => {
     setSearchTerm(value);
   };
 
-  const filteredPeople = peopleData.filter(({ name }) => {
-    return name.toLowerCase().includes(searchTerm.toLowerCase().trim());
+  const filteredStories = stories.filter(({ title }) => {
+    return title.toLowerCase().includes(searchTerm.toLowerCase().trim());
   });
 
   return (
     <div>
-      <h1>The People's list</h1>
-      <InputField id="search" label="Search" value={searchTerm} onChange={handleSearch} />
+      <h1>Frontend JavaScript frameworks</h1>
+      <InputField
+        id="search"
+        label="Search"
+        value={searchTerm}
+        onChange={handleSearch}
+      />
       <hr />
-      <List items={filteredPeople} />
+      <List items={filteredStories} />
     </div>
   );
-};
+}
 ```
 
 **2. Добавление поддержки разных типов полей**

@@ -26,15 +26,19 @@ sidebar_position: 13
 Теперь компонент `Search` не управляет состоянием, а получает его обновляющую функцию через пропсы от родительского компонента:
 
 ```tsx
+// src/components/Search.tsx
+import React from 'react';
+
 type SearchProps = {
   onSearch: (value: string) => void;
 };
 
 export const Search = ({ onSearch }: SearchProps) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      onSearch(event.target.value);
+    const newValue = event.target.value;
+    onSearch(newValue); // Вызов Callback Handler
   };
-    
+
   return (
     <div>
       <label htmlFor="search">Search: </label>
@@ -54,27 +58,31 @@ export const Search = ({ onSearch }: SearchProps) => {
 
 ```tsx
 import { useState } from 'react';
+import { stories } from './stores/stories';
 import { List } from './components/List';
-import { peopleData } from './peopleData';
 import { Search } from './components/Search';
 
-const App = () => {
+function App() {
   // Инициализация состояния пустой строкой
   const [searchTerm, setSearchTerm] = useState('');
 
-  const filteredPeople = peopleData.filter(({ name }) => {
-    return name.toLowerCase().includes(searchTerm.toLowerCase().trim());
+  const handleSearch = (value: string) => {
+    setSearchTerm(value);
+  };
+
+  const filteredStories = stories.filter(({ title }) => {
+    return title.toLowerCase().includes(searchTerm.toLowerCase().trim());
   });
-  
+
   return (
     <div>
-      <h1>The People's list</h1>
-      <Search onSearch={setSearchTerm} />
+      <h1>Frontend JavaScript frameworks</h1>
+      <Search onSearch={handleSearch} />
       <hr />
-      <List items={filteredPeople} />
+      <List items={filteredStories} />
     </div>
   );
-};
+}
 
 export default App;
 ```
@@ -84,8 +92,8 @@ export default App;
 В `App` мы можем отфильтровать массив перед передачей в `List`:
 
 ```ts
-const filteredPeople = peopleData.filter(({ name }) => {
-  return name.toLowerCase().includes(searchTerm.toLowerCase().trim());
+const filteredStories = stories.filter(({ title }) => {
+  return title.toLowerCase().includes(searchTerm.toLowerCase().trim());
 });
 ```
 

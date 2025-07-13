@@ -19,31 +19,33 @@ sidebar_position: 15
 
 ```tsx
 import { useState } from 'react';
+import { stories } from './stores/stories';
 import { List } from './components/List';
-import { peopleData } from './peopleData';
 import { Search } from './components/Search';
 
-const App = () => {
-  const [searchTerm, setSearchTerm] = useState(localStorage.getItem('search') ?? '');
+function App() {
+  const [searchTerm, setSearchTerm] = useState(
+    localStorage.getItem('search') ?? '',
+  );
 
   const handleSearch = (value: string) => {
     setSearchTerm(value);
     localStorage.setItem('search', value);
   };
 
-  const filteredPeople = peopleData.filter(({ name }) => {
-    return name.toLowerCase().includes(searchTerm.toLowerCase().trim());
+  const filteredStories = stories.filter(({ title }) => {
+    return title.toLowerCase().includes(searchTerm.toLowerCase().trim());
   });
 
   return (
     <div>
-    <h1>The People's list</h1>
-    <Search search={searchTerm} onSearch={handleSearch} />
-    <hr />
-    <List items={filteredPeople} />
-  </div>
+      <h1>Frontend JavaScript frameworks</h1>
+      <Search search={searchTerm} onSearch={handleSearch} />
+      <hr />
+      <List items={filteredStories} />
+    </div>
   );
-};
+}
 
 export default App;
 ```
@@ -61,23 +63,23 @@ export default App;
 
 ```tsx
 import { useEffect, useState } from 'react';
+import { stories } from './stores/stories';
 import { List } from './components/List';
-import { peopleData } from './peopleData';
 import { Search } from './components/Search';
 
-const App = () => {
-  const [searchTerm, setSearchTerm] = useState(localStorage.getItem('search') ?? '');
+function App() {
+    const [searchTerm, setSearchTerm] = useState(
+        localStorage.getItem('search') ?? '',
+    );
 
-  useEffect(() => {
-    localStorage.setItem('search', searchTerm);
-  }, [searchTerm]);
+    useEffect(() => {
+        localStorage.setItem('search', searchTerm);
+    }, [searchTerm]);
 
-  const handleSearch = (value: string) => {
-    setSearchTerm(value);
-  };
+    // ...
+}
 
-  // ...
-};
+export default App;
 ```
 
 **Как работает `useEffect`?**

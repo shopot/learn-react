@@ -18,18 +18,18 @@ React в первую очередь продвигает декларативн
 Простейший декларативный способ установки фокуса — атрибут `autoFocus`:
 
 ```tsx
-export const InputField = ({
-  id,
-  label,
-  value,
-  type = 'text', // Значение по умолчанию
-  onChange,
-}: InputFieldProps) => (
-  <>
-    <label htmlFor={id}>{label} </label>
-    <input id="search" type={type} value={value} onChange={(e) => onChange(e.target.value)} autoFocus />
-  </>
-);
+export const InputField = ({ id, label, value, onChange }: InputFieldProps) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    onChange(event.target.value);
+  };
+
+  return (
+    <>
+      <label htmlFor={id}>{label}: </label>
+      <input id={id} type="text" value={value} onChange={handleChange} autoFocus />
+    </>
+  );
+};
 ```
 
 Проблема: если компонент используется несколько раз, фокус получит только последний отрисованный инпут.
@@ -61,16 +61,14 @@ export const InputField = ({
 
 Давайте посмотрим пример использования `useRef` для установки фокуса:
 
-
 ```tsx
-import { useEffect, useRef, type InputHTMLAttributes } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 type InputFieldProps = {
   id: string;
   label: string;
   value: string;
-  type: InputHTMLAttributes<HTMLInputElement>['type'];
-  isFocused: boolean;
+  isFocused?: boolean;
   onChange: (value: string) => void;
 };
 
@@ -78,8 +76,7 @@ export const InputField = ({
   id,
   label,
   value,
-  type = 'text', // Значение по умолчанию
-  isFocused = false,
+  isFocused,
   onChange,
 }: InputFieldProps) => {
   // (1) Создаём ref
@@ -93,17 +90,19 @@ export const InputField = ({
     }
   }, [isFocused]);
 
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    onChange(event.target.value);
+  };
+
   return (
     <>
-      <label htmlFor={id}>{label} </label>
-      {/* (2) Привязываем ref к элементу */}
+      <label htmlFor={id}>{label}: </label>
       <input
-        ref={inputRef}
-        id="search"
-        type={type}
+        ref={inputRef} // (2) Привязываем ref к элементу
+        id={id}
+        type="text"
         value={value}
-        onChange={(e) => onChange(e.target.value)}
-        autoFocus
+        onChange={handleChange}
       />
     </>
   );

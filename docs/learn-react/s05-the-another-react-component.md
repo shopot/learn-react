@@ -12,59 +12,67 @@ sidebar_position: 5
 Чтобы упростить работу и повысить удобство поддержки, мы выделим некоторые его обязанности в отдельный компонент `List`:
 
 Создайте файл `src/components/List.tsx`:
+
 ```tsx
-const people = [
-    {
-        id: 1,
-        name: 'Creola Katherine Johnson',
-        profession: 'mathematician',
-    },
-    {
-        id: 2,
-        name: 'Mario José Molina-Pasquel Henríquez',
-        profession: 'chemist',
-    },
-    {
-        id: 3,
-        name: 'Mohammad Abdus Salam',
-        profession: 'physicist',
-    },
-    {
-        id: 4,
-        name: 'Percy Lavon Julian',
-        profession: 'chemist',
-    },
-    {
-        id: 5,
-        name: 'Subrahmanyan Chandrasekhar',
-        profession: 'astrophysicist',
-    },
+// src/components/List.tsx
+const stories = [
+  {
+    id: 1,
+    title: 'React',
+    description:
+      'Библиотека для создания пользовательских интерфейсов, основанная на компонентной архитектуре.',
+  },
+  {
+    id: 2,
+    title: 'Vue.js',
+    description:
+      'Прогрессивный фреймворк для построения интерфейсов, легкий и гибкий в использовании.',
+  },
+  {
+    id: 3,
+    title: 'Angular',
+    description:
+      'Мощный фреймворк от Google для разработки одностраничных приложений с богатым функционалом.',
+  },
+  {
+    id: 4,
+    title: 'Svelte',
+    description:
+      'Современный фреймворк, который компилирует компоненты в чистый JavaScript, обеспечивая высокую производительность.',
+  },
+  {
+    id: 5,
+    title: 'Ember.js',
+    description:
+      'Фреймворк для амбициозных веб-приложений с встроенным роутингом и инструментами разработки.',
+  },
 ];
 
 export function List() {
-    return (
-        <ul>
-            {people.map(({ id, name, profession }) => (
-                <li key={id}>
-                    {name} {profession}
-                </li>
-            ))}
-        </ul>
-    );
+  return (
+    <ul>
+      {stories.map(({ id, title, description }) => (
+        <li key={id}>
+          <span>{title}</span>
+          <span>{description}</span>
+        </li>
+      ))}
+    </ul>
+  );
 }
 ```
 
 Теперь наш компонент `App` будет выглядеть следующим образом:
 
 ```tsx
-// Первая строка подключает новый компонент List, 
-// чтобы его можно было использовать внутри компонента App.
 import { List } from './components/List';
+// Первая строка подключает новый компонент List,
+// чтобы его можно было использовать внутри компонента App.
 
 function App() {
   return (
     <div>
-      <h1>The People's list</h1>
+      <h1>Frontend JavaScript frameworks</h1>
       <label htmlFor="search">Search: </label>
       <input id="search" type="text" />
       <hr />

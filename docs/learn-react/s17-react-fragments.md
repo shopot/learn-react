@@ -10,17 +10,23 @@ sidebar_position: 17
 
 ```tsx
 // ...
-export const Search = ({ search, onSearch }: SearchProps) => (
-  <div>
-     <label htmlFor="search">Search: </label>
-     <input
-       id="search"
-       type="text"
-       value={search} // Значение и пропсов
-       onChange={(e) => onSearch(e.target.value)} // Обработчик изменения поля ввода
-    />
-  </div>
-);
+export const Search = ({ search, onSearch }: SearchProps) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    onSearch(event.target.value);
+  };
+
+  return (
+    <div>
+      <label htmlFor="search">Search: </label>
+      <input
+        id="search"
+        type="text"
+        value={search} // Значение и пропсов
+        onChange={handleChange} // Обработчик изменения поля ввода
+      />
+    </div>
+  );
+};
 ```
 
 Здесь `<div>` служит только для соблюдения требований JSX, но не несёт смысловой нагрузки.
@@ -33,16 +39,21 @@ export const Search = ({ search, onSearch }: SearchProps) => (
 
 ```tsx
 // ...
-export const Search = ({ search, onSearch }: SearchProps) => [
-  <label key={1} htmlFor="search">Search: </label>,
-  <input
-    key={2}
-    id="search"
-    type="text"
-    value={search} // Значение и пропсов
-    onChange={(e) => onSearch(e.target.value)} // Обработчик изменения поля ввода
-  />
-];
+export const Search = ({ search, onSearch }: SearchProps) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    onSearch(event.target.value);
+  };
+
+  return [
+    <label htmlFor="search">Search: </label>,
+    <input
+      id="search"
+      type="text"
+      value={search} // Значение и пропсов
+      onChange={handleChange} // Обработчик изменения поля ввода
+    />,
+  ];
+};
 ```
 
 Однако у этого подхода есть недостатки:
@@ -57,17 +68,23 @@ export const Search = ({ search, onSearch }: SearchProps) => [
 Возврат нескольких элементов из компонента является распространённой практикой в React. Фрагменты позволяют формировать список дочерних элементов, не создавая лишних узлов в DOM.
 
 ```tsx
-export const Search = ({ search, onSearch }: SearchProps) => (
-  <>
-     <label htmlFor="search">Search: </label>
-     <input
-       id="search"
-       type="text"
-       value={search} // Значение и пропсов
-       onChange={(e) => onSearch(e.target.value)} // Обработчик изменения поля ввода
-    />
-  </>
-);
+export const Search = ({ search, onSearch }: SearchProps) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    onSearch(event.target.value);
+  };
+
+  return (
+    <>
+      <label htmlFor="search">Search: </label>
+      <input
+        id="search"
+        type="text"
+        value={search} // Значение и пропсов
+        onChange={handleChange} // Обработчик изменения поля ввода
+      />
+    </>
+  );
+};
 ```
 
 Фрагменты позволяют группировать несколько элементов без добавления лишних узлов в DOM. 

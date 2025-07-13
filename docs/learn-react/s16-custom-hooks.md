@@ -26,10 +26,13 @@ React предоставляет встроенные хуки, такие ка�
 Сначала вынесем логику из компонента в отдельную функцию:
 
 ```tsx
+// src/hooks/usePersistedSearch.ts
 import { useEffect, useState } from 'react';
 
 export const usePersistedSearch = () => {
-  const [value, setValue] = useState<string>(localStorage.getItem('search') || '');
+  const [value, setValue] = useState<string>(
+    localStorage.getItem('search') || '',
+  );
 
   useEffect(() => {
     localStorage.setItem('search', value);
@@ -56,44 +59,46 @@ export const usePersistedSearch = () => {
 import { useEffect, useState } from 'react';
 
 export const usePersistedSearch = (key: string, initialState: string) => {
-    const [value, setValue] = useState<string>(localStorage.getItem(key) ?? initialState);
+  const [value, setValue] = useState<string>(
+    localStorage.getItem(key) ?? initialState,
+  );
 
-    useEffect(() => {
-        localStorage.setItem(key, value);
-    }, [value, key]); // Добавляем key в зависимости
+  useEffect(() => {
+    localStorage.setItem(key, value);
+  }, [value, key]); // Добавляем key в зависимости
 
-    return [value, setValue] as const;
+  return [value, setValue] as const;
 };
 ```
 
 Теперь хук можно применять в любом компоненте:
 
 ```tsx
+import { stories } from './stores/stories';
 import { List } from './components/List';
-import { peopleData } from './peopleData';
 import { Search } from './components/Search';
 import { usePersistedSearch } from './hooks/usePersistedSearch';
 
-const App = () => {
+function App() {
   const [searchTerm, setSearchTerm] = usePersistedSearch('search', '');
 
   const handleSearch = (value: string) => {
     setSearchTerm(value);
   };
 
-  const filteredPeople = peopleData.filter(({ name }) => {
-    return name.toLowerCase().includes(searchTerm.toLowerCase().trim());
+  const filteredStories = stories.filter(({ title }) => {
+    return title.toLowerCase().includes(searchTerm.toLowerCase().trim());
   });
 
   return (
     <div>
-      <h1>The People's list</h1>
+      <h1>Frontend JavaScript frameworks</h1>
       <Search search={searchTerm} onSearch={handleSearch} />
       <hr />
-      <List items={filteredPeople} />
+      <List items={filteredStories} />
     </div>
   );
-};
+}
 
 export default App;
 ```

@@ -51,7 +51,7 @@ import { List } from './components/List';
 function App() {
   return (
     <div>
-      <h1>The People's list</h1>
+      <h1>Frontend JavaScript frameworks</h1>
       <label htmlFor="search">Search: </label>
       <input id="search" type="text" />
       <hr />

@@ -6,7 +6,7 @@ sidebar_position: 9
 
 При работе с React, как и в обычном HTML, мы хотим реагировать на действия пользователя: ввод текста, клики по кнопкам, отправку формы и т.д. Для этого используются функции-обработчики событий (event handlers), которые мы передаём через специальные атрибуты JSX — такие как `onChange`, `onClick`, `onSubmit` и другие.
 
-Давайте на примере поля ввода (input) и метки (label) в компоненте App разберёмся, как добавить обработчик события в JSX.
+Давайте на примере поля ввода (`input`) и метки (`label`) в компоненте `App` разберёмся, как добавить обработчик события в JSX.
 
 ## Рефакторинг компонента App
 
@@ -16,10 +16,10 @@ sidebar_position: 9
 ```tsx
 import { List } from './components/List';
 
-const App = () => {
+function App() {
   return (
     <div>
-      <h1>The People's list</h1>
+      <h1>Frontend JavaScript frameworks</h1>
       <label htmlFor="search">Search: </label>
       <input id="search" type="text" />
       <hr />
@@ -40,7 +40,7 @@ export default App;
 
 ```tsx
 const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('Input changed:', event.target.value);
+  console.log('Input changed:', event.target.value);
 };
 ```
 

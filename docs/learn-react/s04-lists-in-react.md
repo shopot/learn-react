@@ -16,19 +16,39 @@ sidebar_position: 4
 Для начала давайте определим массив из нескольких элементов:
 
 ```ts
-const people = [
-  'Creola Katherine Johnson: mathematician',
-  'Mario José Molina-Pasquel Henríquez: chemist',
-  'Mohammad Abdus Salam: physicist',
-  'Percy Lavon Julian: chemist',
-  'Subrahmanyan Chandrasekhar: astrophysicist'
+const stories = [
+  {
+    title: 'React',
+    description:
+      'Библиотека для создания пользовательских интерфейсов, основанная на компонентной архитектуре.',
+  },
+  {
+    title: 'Vue.js',
+    description:
+      'Прогрессивный фреймворк для построения интерфейсов, легкий и гибкий в использовании.',
+  },
+  {
+    title: 'Angular',
+    description:
+      'Мощный фреймворк от Google для разработки одностраничных приложений с богатым функционалом.',
+  },
+  {
+    title: 'Svelte',
+    description:
+      'Современный фреймворк, который компилирует компоненты в чистый JavaScript, обеспечивая высокую производительность.',
+  },
+  {
+    title: 'Ember.js',
+    description:
+      'Фреймворк для амбициозных веб-приложений с встроенным роутингом и инструментами разработки.',
+  },
 ];
 ```
 
 Основной способ отображения списков в React — использование метода массива `map()`. Он позволяет преобразовать массив данных в массив JSX-элементов, которые React сможет отобразить:
 
 ```tsx
-const listItems = people.map(person => <li>{person}</li>);
+const storiesList = stories.map(({title}) => <li>{title}</li>);
 ```
 
 Давайте посмотри на наш компонент `src/App.tsx`
@@ -52,26 +72,51 @@ function App() {
 Полный листинг компонента `src/App.tsx` будет выглядеть так:
 
 ```tsx
-const people = [
-    'Creola Katherine Johnson: mathematician',
-    'Mario José Molina-Pasquel Henríquez: chemist',
-    'Mohammad Abdus Salam: physicist',
-    'Percy Lavon Julian: chemist',
-    'Subrahmanyan Chandrasekhar: astrophysicist'
+const stories = [
+  {
+    title: 'React',
+    description:
+      'Библиотека для создания пользовательских интерфейсов, основанная на компонентной архитектуре.',
+  },
+  {
+    title: 'Vue.js',
+    description:
+      'Прогрессивный фреймворк для построения интерфейсов, легкий и гибкий в использовании.',
+  },
+  {
+    title: 'Angular',
+    description:
+      'Мощный фреймворк от Google для разработки одностраничных приложений с богатым функционалом.',
+  },
+  {
+    title: 'Svelte',
+    description:
+      'Современный фреймворк, который компилирует компоненты в чистый JavaScript, обеспечивая высокую производительность.',
+  },
+  {
+    title: 'Ember.js',
+    description:
+      'Фреймворк для амбициозных веб-приложений с встроенным роутингом и инструментами разработки.',
+  },
 ];
 
 function App() {
-    const listItems = people.map(person => <li>{person}</li>);
-    
-    return (
-        <div>
-            <h1>The People's list</h1>
-            <label htmlFor="search">Search: </label>
-            <input id="search" type="text" />
-            <hr />
-            <ul>{listItems}</ul>
-        </div>
-    );
+  const storiesList = stories.map(({ title, description }) => (
+    <li>
+      <span>{title}</span>
+      <span>{description}</span>
+    </li>
+  ));
+
+  return (
+    <div>
+      <h1>Frontend JavaScript frameworks</h1>
+      <label htmlFor="search">Search: </label>
+      <input id="search" type="text" />
+      <hr />
+      <ul>{storiesList}</ul>
+    </div>
+  );
 }
 
 export default App;
@@ -103,50 +148,56 @@ Each child in a list should have a unique “key” prop.
 
 ```tsx
 // Массив данных где каждый элемент содержит уникальный идентификатор (id)
-const people = [
-    {
-        id: 1,
-        name: 'Creola Katherine Johnson',
-        profession: 'mathematician',
-    },
-    {
-        id: 2,
-        name: 'Mario José Molina-Pasquel Henríquez',
-        profession: 'chemist',
-    },
-    {
-        id: 3,
-        name: 'Mohammad Abdus Salam',
-        profession: 'physicist',
-    },
-    {
-        id: 4,
-        name: 'Percy Lavon Julian',
-        profession: 'chemist',
-    },
-    {
-        id: 5,
-        name: 'Subrahmanyan Chandrasekhar',
-        profession: 'astrophysicist',
-    },
+const stories = [
+  {
+    id: 1,
+    title: 'React',
+    description:
+      'Библиотека для создания пользовательских интерфейсов, основанная на компонентной архитектуре.',
+  },
+  {
+    id: 2,
+    title: 'Vue.js',
+    description:
+      'Прогрессивный фреймворк для построения интерфейсов, легкий и гибкий в использовании.',
+  },
+  {
+    id: 3,
+    title: 'Angular',
+    description:
+      'Мощный фреймворк от Google для разработки одностраничных приложений с богатым функционалом.',
+  },
+  {
+    id: 4,
+    title: 'Svelte',
+    description:
+      'Современный фреймворк, который компилирует компоненты в чистый JavaScript, обеспечивая высокую производительность.',
+  },
+  {
+    id: 5,
+    title: 'Ember.js',
+    description:
+      'Фреймворк для амбициозных веб-приложений с встроенным роутингом и инструментами разработки.',
+  },
 ];
 
 function App() {
-    const listItems = people.map(({ id, name, profession }) => (
-        <li key={id}>
-            {name} {profession}
-        </li>
-    ));
+  const storiesList = stories.map(({ id, title, description }) => (
+    <li key={id}>
+      <span>{title}</span>
+      <span>{description}</span>
+    </li>
+  ));
 
-    return (
-        <div>
-            <h1>The People's list</h1>
-            <label htmlFor="search">Search: </label>
-            <input id="search" type="text" />
-            <hr />
-            <ul>{listItems}</ul>
-        </div>
-    );
+  return (
+    <div>
+      <h1>Frontend JavaScript frameworks</h1>
+      <label htmlFor="search">Search: </label>
+      <input id="search" type="text" />
+      <hr />
+      <ul>{storiesList}</ul>
+    </div>
+  );
 }
 
 export default App;
@@ -160,19 +211,20 @@ JSX позволяет встраивать любое выражение в ф�
 
 ```tsx
 function App() {
-    return (
-        <div>
-            <h1>The People's list</h1>
-            <label htmlFor="search">Search: </label>
-            <input id="search" type="text" />
-            <hr />
-            <ul>{people.map(({ id, name, profession }) => (
-                <li key={id}>
-                    {name} {profession}
-                </li>
-            ))}</ul>
-        </div>
-    );
+  return (
+    <div>
+      <h1>Frontend JavaScript frameworks</h1>
+      <label htmlFor="search">Search: </label>
+      <input id="search" type="text" />
+      <hr />
+      <ul>{stories.map(({ id, title, description }) => (
+        <li key={id}>
+          <span>{title}</span>
+          <span>{description}</span>
+        </li>
+      ))}</ul>
+    </div>
+  );
 }
 
 export default App;
